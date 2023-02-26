@@ -1,16 +1,23 @@
-import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
-
-export class AwsSamCdkStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+import { CfnOutput, Stack, StackProps } from "aws-cdk-lib";
+import { Bucket, EventType as S3Event } from "aws-cdk-lib/aws-s3";
+import { Construct } from "constructs";
+import { ProductsDatasource } from "./datasource/products-datasource";
+import { ParseProductsLabda } from "./functions/parse-products/parse-products";
+export class AwsSamCdkStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
+    const productsBucket = new Bucket(this, "ProductsBucket");
+    const datasource = new ProductsDatasource(this);
+    const parseProducts = new ParseProductsLabda(this, {
+      bucketName: productsBucket.bucketName,
+      tableName: datasource.table.tableName,
+    });
 
-    // example resource
-    // const queue = new sqs.Queue(this, 'AwsSamCdkQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    productsBucket.addEventNotification(S3Event.OBJECT_CREATED, parseProducts.s3lambdaDestionation);
+    productsBucket.grantRead(parseProducts.lambdaFunction);
+    datasource.table.grantWriteData(parseProducts.lambdaFunction);
+
+    new CfnOutput(this, "GraphqlApiUrl", { value: datasource.api.graphqlUrl });
   }
 }
