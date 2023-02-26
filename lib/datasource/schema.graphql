@@ -1,0 +1,13 @@
+type Product {
+  sku: String!
+  name: String
+  price: Float
+  quantity: Int
+}
+type Query {
+  getProducts(limit: Int, nextToken: String): PaginatedProducts!
+}
+type PaginatedProducts {
+  items: [Product!]!
+  nextToken: String
+}
