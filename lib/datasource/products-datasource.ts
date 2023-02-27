@@ -11,7 +11,7 @@ export class ProductsDatasource extends Construct {
     super(scope, "ProductsDatasource");
 
     this.api = new GraphqlApi(this, "Api", {
-      name: "products-api",
+      name: "ProductsApi",
       schema: SchemaFile.fromAsset(join(__dirname, "schema.graphql")),
     });
 

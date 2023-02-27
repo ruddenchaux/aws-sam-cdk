@@ -8,12 +8,12 @@ type Params = {
   tableName: string;
 };
 
-export class ParseProductsLabda extends Construct {
+export class ParseProductsLambda extends Construct {
   s3lambdaDestionation: LambdaDestination;
   lambdaFunction: NodejsFunction;
 
   constructor(scope: Construct, params: Params) {
-    super(scope, "ParseProductsLabda");
+    super(scope, "ParseProductsLambda");
     const { bucketName, tableName } = params;
 
     this.lambdaFunction = new NodejsFunction(this, "function", {
