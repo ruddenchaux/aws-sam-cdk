@@ -1,3 +1,4 @@
+import { RemovalPolicy } from "aws-cdk-lib";
 import { GraphqlApi, MappingTemplate, SchemaFile } from "aws-cdk-lib/aws-appsync";
 import { AttributeType, BillingMode, Table } from "aws-cdk-lib/aws-dynamodb";
 import { Construct } from "constructs";
@@ -21,6 +22,7 @@ export class ProductsDatasource extends Construct {
         type: AttributeType.STRING,
       },
       billingMode: BillingMode.PAY_PER_REQUEST,
+      removalPolicy: RemovalPolicy.DESTROY,
     });
 
     const datasource = this.api.addDynamoDbDataSource("ProductsDataSource", this.table);

@@ -17,6 +17,7 @@ export class ParseProductsLambda extends Construct {
     const { bucketName, tableName } = params;
 
     this.lambdaFunction = new NodejsFunction(this, "function", {
+      entry: "./lib/functions/parse-products/parse-products.function.ts",
       bundling: {
         externalModules: ["aws-sdk", "pg-native"],
       },

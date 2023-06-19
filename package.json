@@ -7,7 +7,8 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "test": "jest",
+    "test:infra": "jest --config='jest-infra.config.js'",
+    "test:lambda": "jest --config='jest-lambda.config.js'",
     "cdk": "cdk",
     "cfn-diagram": "cfn-diagram draw.io ./cdk.out/*.template.json"
   },
@@ -18,15 +19,18 @@
     "@types/node": "18.13.0",
     "@types/pg": "^8.6.6",
     "aws-cdk": "2.65.0",
+    "aws-sdk-client-mock": "^2.1.1",
+    "aws-sdk-client-mock-jest": "^2.1.1",
     "jest": "^29.4.2",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
     "typescript": "~4.9.5"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.352.0",
+    "@aws-sdk/client-s3": "^3.352.0",
     "@fast-csv/parse": "^4.3.6",
     "aws-cdk-lib": "2.65.0",
-    "aws-sdk": "^2.1321.0",
     "constructs": "^10.0.0",
     "source-map-support": "^0.5.21"
   }
